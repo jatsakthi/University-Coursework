@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Gradebook>
+    <Student Id="1">
+        <WorkItem name="Assignment">
+            <Comments>Good</Comments>
+            <Grade>A</Grade>
+        </WorkItem>
+        <WorkItem name="HomeWork">
+            <Comments>None</Comments>
+            <Grade>C</Grade>
+        </WorkItem>
+        <WorkItem name="MidTerm">
+            <Comments>None</Comments>
+            <Grade>None</Grade>
+        </WorkItem>
+    </Student>
+    <Student Id="2">
+        <WorkItem name="Assignment">
+            <Comments>None</Comments>
+            <Grade>C</Grade>
+        </WorkItem>
+        <WorkItem name="HomeWork">
+            <Comments>None</Comments>
+            <Grade>E</Grade>
+        </WorkItem>
+    </Student>
+    <Student Id="3">
+        <WorkItem name="Assignmet">
+            <Comments>None</Comments>
+            <Grade>None</Grade>
+        </WorkItem>
+    </Student>
+    <Student Id="4">
+        <WorkItem name="Assignment">
+            <Comments>None</Comments>
+            <Grade>None</Grade>
+        </WorkItem>
+    </Student>
+    <Student Id="5">
+        <WorkItem name="Assignment">
+            <Comments>None</Comments>
+            <Grade>None</Grade>
+        </WorkItem>
+    </Student>
+</Gradebook>
