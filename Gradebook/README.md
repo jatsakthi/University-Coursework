@@ -1,6 +1,8 @@
 # Gradebook
 
-Implementation of a Java based GUI(JAVA AWT) of a Gradebook that allows an instructor to perform CRUD operations (i.e. Create, Read, Update, Delete) on the gradebook.
+Implementation of a Java based GUI(JAVA AWT) of a Gradebook that allows an instructor to perform CRUD operations (i.e. Create, Read, Update, Delete) on the gradebook. Sample is as below:
+
+![alt tag](https://github.com/jatsakthi/Rest-Services/blob/master/Gradebook/Sample.PNG)
 
 1. An instructor can create a new entry for a student.
 2. An instructor can read past entries of a student.
