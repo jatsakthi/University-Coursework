@@ -21,6 +21,7 @@ import json
 import time, datetime
 import requests
 import click
+import crawl
 
 from googleapiclient.discovery import build
 from oauth2client.client import GoogleCredentials
@@ -77,6 +78,7 @@ def main(toprocess, subscription, refresh):
                 filename = msg_data["name"]
                 filetype = msg_data["type"]
                 fn = filename.split('.')[0]
+		Logger.log_writer("Started with {0}".format(str(msg_data["name"])))
 		print "Started:"+ str(msg_data["name"])
                 # Start refreshing the acknowledge deadline.
                 r.start(ack_ids=[ack_id], refresh=refresh, sub=sub)
@@ -86,7 +88,9 @@ def main(toprocess, subscription, refresh):
 
 # <Your custom process>
                 m = Process(bucket, filename, filetype, PROJECT_ID)
-                m.img_to_text()
+                content = m.img_to_text()
+		ingredients = crawl.find(content[filename][0])
+		print ingredients
 # <End of your custom process>
 
                 end_process = datetime.datetime.now()
