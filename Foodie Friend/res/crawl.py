@@ -6,6 +6,7 @@ import click
 #@click.option('--food_name', required=True, help='Name of the Food whose ingredients reqd')
 def find(food_name):
 	try:
+	  print "Got" + str(food_name)
 	  gs = GoogleSearch(food_name)
 	  gs.results_per_page = 10
 	  results = gs.get_results()
@@ -18,3 +19,4 @@ def find(food_name):
 
 if __name__ == '__main__':
     find()
+
