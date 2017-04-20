@@ -43,13 +43,13 @@ class Process(object):
                 }
               }
         }
-        print "Going for"
-        print vision_body
+        #Logger.log_writer("{0} process stops".format(filename))vision_body
+	Logger.log_writer("Request is: {0}".format(vision_body))
         try:
             vision_request = self.vision_client.images().annotate(body={'requests': vision_body})
             vision_response = vision_request.execute()
-            print "done"
-            print vision_response
+            #print vision_response
+	    Logger.log_writer("Response is: {0}".format(vision_response))
             if 'responses' not in vision_response:
                 return {}
             text_response = {}
@@ -65,14 +65,9 @@ class Process(object):
                         text_response[self.filename] = response['textAnnotations'][0]['description'].split("\n")
                 else:
                         text_response[self.filename] = []           
-            print text_response
+            Logger.log_writer("Returning from Process: {0}".format(text_response))
             return text_response
-            #chosen = vision_response['results'][0]['alternatives'][0]
-            #self.write_to_bq(chosen['transcript'], chosen['confidence'])
         except Exception, e:
             print "Problem with file {0} with {1}".format(self.filename, str(e))
             Logger.log_writer("Problem with file {0} with {1}".format(self.filename, str(e)))
             pass
-
-
-
