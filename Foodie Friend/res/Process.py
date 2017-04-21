@@ -4,11 +4,14 @@ import re
 import sys
 import tempfile
 import logging
+
 from googleapiclient.discovery import build
+import googleapiclient.http as e
 from googleapiclient import http, errors
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
 from logger import Logger
+
 
 DISCOVERY_URL = 'https://{api}.googleapis.com/$discovery/rest?version={apiVersion}'
 TMP_SAVE_IMG = '/tmp/output.jpeg'
@@ -19,18 +22,54 @@ def create_api_client(which_api, version):
     credentials = GoogleCredentials.get_application_default()
     return build(which_api, version, credentials=credentials, discoveryServiceUrl=DISCOVERY_URL)
 
+def create_gcs_client():
+    """Returns a Cloud PubSub service client for calling the API."""
+    credentials = GoogleCredentials.get_application_default()
+    return build('storage', 'v1', credentials=credentials)
+
 
 class Process(object):
-    def __init__(self, dropzone_bucket, filename, filetype, project_id):
+    def __init__(self, bucket, filename, filetype, project_id, dest_bucket):
         self.project_id = project_id
-        self.dropzone_bucket = dropzone_bucket
+        self.bucket = bucket
         self.filename = filename
         self.filetype = filetype
+	self.dest_bucket = dest_bucket
         self.vision_client = create_api_client('vision', 'v1')
+	self.gcs_client = create_gcs_client()
+	
+    def upload_object(self,content):
+	body = {
+        'name': self.filename+".txt",
+    	}
+	
+	stream = e.BytesIO()
+	for line in content:
+		stream.write(line+'\n')
+		
+	'''
+	if readers or owners:
+        	body['acl'] = []
+
+    	for r in readers:
+		body['acl'].append({
+		    'entity': 'user-%s' % r,
+		    'role': 'READER',
+		    'email': r
+		})
+    	for o in owners:
+		body['acl'].append({
+		    'entity': 'user-%s' % o,
+		    'role': 'OWNER',
+		    'email': o
+		})
+	'''
+	req = self.gcs_client.objects().insert(bucket=self.dest_bucket,body=body,media_body=e.MediaIoBaseUpload(stream, 'text/plain'))
+	resp = req.execute()
+	return resp
+
     def img_to_text(self):
         print "Starting"
-
-
 
         vision_body ={
               "features": [{
@@ -39,7 +78,7 @@ class Process(object):
                 }],
               "image": {
                 "source": {
-                  "gcsImageUri": "gs://{0}/{1}".format(self.dropzone_bucket, self.filename)
+                  "gcsImageUri": "gs://{0}/{1}".format(self.bucket, self.filename)
                 }
               }
         }
@@ -71,3 +110,5 @@ class Process(object):
             print "Problem with file {0} with {1}".format(self.filename, str(e))
             Logger.log_writer("Problem with file {0} with {1}".format(self.filename, str(e)))
             pass
+
+
