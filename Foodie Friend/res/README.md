@@ -5,3 +5,5 @@ Verison 1:
 2. User gets back the details of the food at destination bucket
 
 Details are gathered by wikipedia.
+
+No-Result not handled
