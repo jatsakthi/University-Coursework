@@ -7,3 +7,10 @@ Verison 1:
 Details are gathered by wikipedia.
 
 No-Result not handled
+
+Commands:
+---------
+gcloud app deploy 01_watcher/app.yaml --bookshelf-164400
+gsutil notification watchbucket https://bookshelf-164400.appspot.com/media-processing-hook gs://audio-mediap-dropzone
+gsutil -m cp ~/Pictures/test.png gs://audio-mediap-dropzone
+gsutil notification stopchannel cb8c5cfe-36f2-4295-8ac4-e009c1b3b91d 3e1NjKnzEL_8hG4sMeZkNTh8LJE
