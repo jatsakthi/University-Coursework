@@ -46,11 +46,9 @@ INSTANCE_ZONE = INSTANCE_ZONE_URL.split('/')[0]
 @click.option('--toprocess', default=1,
               help='Number of medias to process on one instance at a time - Not implemented')
 @click.option('--subscription', required=True, help='Name of the subscription to get new messages')
-@click.option('--destination', required=True, help='Name of the Destination bucket')
 @click.option('--refresh', default=25, help='Acknowledge deadline refresh time')
-def main(toprocess, subscription,destination, refresh):
+def main(toprocess, subscription,refresh):
     sub = "projects/{0}/subscriptions/{1}".format(PROJECT_ID, subscription)
-    dest_bucket = destination
     r = Recurror(refresh - 10, postpone_ack)
 
     # pull() blocks until a message is received
@@ -88,7 +86,7 @@ def main(toprocess, subscription,destination, refresh):
                 start_process = datetime.datetime.now()
 
 # <Your custom process>
-                m = Process(bucket, filename, filetype, PROJECT_ID,dest_bucket)
+                m = Process(bucket, filename, filetype, PROJECT_ID)
                 content = m.img_to_text()
 		ingredients = crawl.find(content[filename][0])
 		print ingredients
