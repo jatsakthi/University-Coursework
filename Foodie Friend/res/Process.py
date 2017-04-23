@@ -29,12 +29,11 @@ def create_gcs_client():
 
 
 class Process(object):
-    def __init__(self, bucket, filename, filetype, project_id, dest_bucket):
+    def __init__(self, bucket, filename, filetype, project_id):
         self.project_id = project_id
         self.bucket = bucket
         self.filename = filename
         self.filetype = filetype
-	self.dest_bucket = dest_bucket
         self.vision_client = create_api_client('vision', 'v1')
 	self.gcs_client = create_gcs_client()
 	
@@ -64,7 +63,7 @@ class Process(object):
 		    'email': o
 		})
 	'''
-	req = self.gcs_client.objects().insert(bucket=self.dest_bucket,body=body,media_body=e.MediaIoBaseUpload(stream, 'text/plain'))
+	req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, 'text/plain'))
 	resp = req.execute()
 	return resp
 
