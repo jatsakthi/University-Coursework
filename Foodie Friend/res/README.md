@@ -4,9 +4,10 @@ Verison 2:
 1. User uploads cropped Image to source bucket to which watcher is connected
 2. User gets back the details of the food at output folder in the same bucket.
 
+3. No result handled
+4. No extracted text case handled
+5. Encoding errors handled
 Details are gathered by wikipedia.
-
-No-Result handled
 
 Commands:
 ---------
