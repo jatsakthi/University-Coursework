@@ -93,7 +93,7 @@ def main(toprocess, subscription,refresh):
 				ingredients = []
 				ingredients.append("NO_RESULT")
 			else:
-				ingredients = crawl.find(content[filename][0])
+				ingredients = crawl.find(content[filename][0].encode('utf-8'))
 				print ingredients
 				if len(ingredients)==0:
 					ingredients.append("NO_RESULT")
