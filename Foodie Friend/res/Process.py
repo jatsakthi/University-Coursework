@@ -4,6 +4,7 @@ import re
 import sys
 import tempfile
 import logging
+import json
 
 from googleapiclient.discovery import build
 import googleapiclient.http as e
@@ -86,7 +87,7 @@ class Process(object):
         try:
             vision_request = self.vision_client.images().annotate(body={'requests': vision_body})
             vision_response = vision_request.execute()
-            #print vision_response
+            print(json.dumps(vision_response,indent=2))
 	    Logger.log_writer("Response is: {0}".format(vision_response))
             if 'responses' not in vision_response:
                 return {}
