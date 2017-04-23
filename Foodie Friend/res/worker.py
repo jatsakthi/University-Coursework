@@ -89,10 +89,14 @@ def main(toprocess, subscription,refresh):
 	# <Your custom process>
 			m = Process(bucket, filename, filetype, PROJECT_ID)
 			content = m.img_to_text()
-			ingredients = crawl.find(content[filename][0])
-			print ingredients
-			if len(ingredients)==0:
+			if len(content[filename])==0:
+				ingredients = []
 				ingredients.append("NO_RESULT")
+			else:
+				ingredients = crawl.find(content[filename][0])
+				print ingredients
+				if len(ingredients)==0:
+					ingredients.append("NO_RESULT")
 			writeResponse = m.upload_object(ingredients)
 			print "WRITE Response:"
 			print(json.dumps(writeResponse,indent=2))
