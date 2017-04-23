@@ -40,7 +40,7 @@ class Process(object):
 	
     def upload_object(self,content):
 	body = {
-        'name': self.filename+".txt",
+        'name': "output/"+self.filename+".txt",
     	}
 	
 	stream = e.BytesIO()
