@@ -6,7 +6,7 @@ Verison 2:
 
 Details are gathered by wikipedia.
 
-No-Result not handled
+No-Result handled
 
 Commands:
 ---------
@@ -14,3 +14,4 @@ Commands:
 2. gsutil notification watchbucket https://bookshelf-164400.appspot.com/media-processing-hook gs://audio-mediap-dropzone
 3. gsutil -m cp ~/Pictures/test.png gs://audio-mediap-dropzone
 4. gsutil notification stopchannel cb8c5cfe-36f2-4295-8ac4-e009c1b3b91d 3e1NjKnzEL_8hG4sMeZkNTh8LJE
+5. python worker.py --subscription=mediap-sub
