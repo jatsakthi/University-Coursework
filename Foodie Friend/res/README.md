@@ -1,8 +1,8 @@
 Resource files
 
-Verison 1:
+Verison 2:
 1. User uploads cropped Image to source bucket to which watcher is connected
-2. User gets back the details of the food at destination bucket
+2. User gets back the details of the food at output folder in the same bucket.
 
 Details are gathered by wikipedia.
 
