@@ -53,78 +53,80 @@ def main(toprocess, subscription,refresh):
 
     # pull() blocks until a message is received
     while True:
-        #[START sub_pull]
-        # Pull the data when available.
-        resp = pubsub_client.projects().subscriptions().pull(
-            subscription=sub,
-            body={
-                "maxMessages": toprocess
-            }
-        ).execute()
-        #[END sub_pull]
+	try:
+		#[START sub_pull]
+		# Pull the data when available.
+		resp = pubsub_client.projects().subscriptions().pull(
+		    subscription=sub,
+		    body={
+			"maxMessages": toprocess
+		    }
+		).execute()
+		#[END sub_pull]
 
-        if resp:
-            # Get the amount of media that one instance can processed
-            # For this demo, we keep it to one per instance.
-            m = resp.get('receivedMessages')[0]
-            if m:
-		
-                message = m.get('message')
-                ack_id = m.get('ackId')
-                msg_string = base64.b64decode(message.get('data'))
-                msg_data = json.loads(msg_string)
-                bucket = msg_data["bucket"]
-                filename = msg_data["name"]
-                filetype = msg_data["type"]
-                fn = filename.split('.')[0]
-		Logger.log_writer("Started with {0}".format(str(msg_data["name"])))
-		print "Started:"+ str(msg_data["name"])
-                # Start refreshing the acknowledge deadline.
-                r.start(ack_ids=[ack_id], refresh=refresh, sub=sub)
+		if resp:
+		    # Get the amount of media that one instance can processed
+		    # For this demo, we keep it to one per instance.
+		    m = resp.get('receivedMessages')[0]
+		    if m:
 
-                Logger.log_writer("{0} process starts".format(filename))
-                start_process = datetime.datetime.now()
+			message = m.get('message')
+			ack_id = m.get('ackId')
+			msg_string = base64.b64decode(message.get('data'))
+			msg_data = json.loads(msg_string)
+			bucket = msg_data["bucket"]
+			filename = msg_data["name"]
+			filetype = msg_data["type"]
+			fn = filename.split('.')[0]
+			Logger.log_writer("Started with {0}".format(str(msg_data["name"])))
+			print "Started:"+ str(msg_data["name"])
+			# Start refreshing the acknowledge deadline.
+			r.start(ack_ids=[ack_id], refresh=refresh, sub=sub)
 
-# <Your custom process>
-                m = Process(bucket, filename, filetype, PROJECT_ID)
-                content = m.img_to_text()
-		ingredients = crawl.find(content[filename][0])
-		print ingredients
-		if len(ingredients)==0:
-			ingredients.append("NO_RESULT")
-		writeResponse = m.upload_object(ingredients)
-		print "WRITE Response:"
-		print(json.dumps(writeResponse,indent=2))
-		
-# <End of your custom process>
+			Logger.log_writer("{0} process starts".format(filename))
+			start_process = datetime.datetime.now()
 
-                end_process = datetime.datetime.now()
-                Logger.log_writer("{0} process stops".format(filename))
+	# <Your custom process>
+			m = Process(bucket, filename, filetype, PROJECT_ID)
+			content = m.img_to_text()
+			ingredients = crawl.find(content[filename][0])
+			print ingredients
+			if len(ingredients)==0:
+				ingredients.append("NO_RESULT")
+			writeResponse = m.upload_object(ingredients)
+			print "WRITE Response:"
+			print(json.dumps(writeResponse,indent=2))
 
-                
-                #[START ack_msg]
-                # Delete the message in the queue by acknowledging it.
-                pubsub_client.projects().subscriptions().acknowledge(
-                    subscription=sub,
-                    body={
-                        'ackIds': [ack_id]
-                    }
-                ).execute()
-                #[END ack_msg]
+	# <End of your custom process>
 
-                # Logs to see what's going on.
-                Logger.log_writer(
-                    "{media_url} processed by instance {instance_hostname} in {amount_time}"
-                    .format(
-                        media_url=msg_string,
-                        instance_hostname=INSTANCE_NAME,
-                        amount_time=str(end_process - start_process)
-                    )
-                )
+			end_process = datetime.datetime.now()
+			Logger.log_writer("{0} process stops".format(filename))
 
-                # Stop the ackDeadLine refresh until next message.
-                r.stop()
 
+			#[START ack_msg]
+			# Delete the message in the queue by acknowledging it.
+			pubsub_client.projects().subscriptions().acknowledge(
+			    subscription=sub,
+			    body={
+				'ackIds': [ack_id]
+			    }
+			).execute()
+			#[END ack_msg]
+
+			# Logs to see what's going on.
+			Logger.log_writer(
+			    "{media_url} processed by instance {instance_hostname} in {amount_time}"
+			    .format(
+				media_url=msg_string,
+				instance_hostname=INSTANCE_NAME,
+				amount_time=str(end_process - start_process)
+			    )
+			)
+
+			# Stop the ackDeadLine refresh until next message.
+			r.stop()
+	except Exception,e:
+		print ("Exception found: {0}".format(str(e)))
 def create_pubsub_client():
     """Returns a Cloud PubSub service client for calling the API."""
     credentials = GoogleCredentials.get_application_default()
