@@ -90,6 +90,8 @@ def main(toprocess, subscription,refresh):
                 content = m.img_to_text()
 		ingredients = crawl.find(content[filename][0])
 		print ingredients
+		if len(ingredients)==0:
+			ingredients.append("NO_RESULT")
 		writeResponse = m.upload_object(ingredients)
 		print "WRITE Response:"
 		print(json.dumps(writeResponse,indent=2))
