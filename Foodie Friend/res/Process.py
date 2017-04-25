@@ -37,6 +37,14 @@ class Process(object):
         self.filetype = filetype
         self.vision_client = create_api_client('vision', 'v1')
 	self.gcs_client = create_gcs_client()
+	self.cse_client = create_api_client('customsearch','v1')
+    def getFirstImage(self,query):
+	res = self.cse_client.cse().list(
+      q=str(query),
+      cx='017576662512468239146:omuauf_lfve',
+    ).execute()
+	first_image_link = print res['items'][0]['link']
+	print first_image_link
 	
     def upload_object(self,content):
 	body = {
