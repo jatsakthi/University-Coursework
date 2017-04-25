@@ -4,6 +4,9 @@ import re
 import sys
 import tempfile
 import logging
+import json
+import urllib
+import cStringIO
 
 from googleapiclient.discovery import build
 import googleapiclient.http as e
@@ -22,6 +25,11 @@ def create_api_client(which_api, version):
     credentials = GoogleCredentials.get_application_default()
     return build(which_api, version, credentials=credentials, discoveryServiceUrl=DISCOVERY_URL)
 
+def create_api_client_withKey(which_api, version):
+    """Returns a Cloud Logging service client for calling the API."""
+    credentials = GoogleCredentials.get_application_default()
+    return build(which_api, version, developerKey="AIzaSyCZGWBJttrKhTjcy6tRjSaJA52zctUb1e4")
+
 def create_gcs_client():
     """Returns a Cloud PubSub service client for calling the API."""
     credentials = GoogleCredentials.get_application_default()
@@ -30,12 +38,45 @@ def create_gcs_client():
 
 class Process(object):
     def __init__(self, bucket, filename, filetype, project_id):
+	
+	print ("bucket:{0}".format(str(bucket)))
+	print ("filename:{0}".format(str(filename)))
+	print ("filetype:{0}".format(str(filetype)))
+	print ("project_id:{0}".format(str(project_id)))
+	
         self.project_id = project_id
         self.bucket = bucket
         self.filename = filename
         self.filetype = filetype
         self.vision_client = create_api_client('vision', 'v1')
 	self.gcs_client = create_gcs_client()
+	self.cse_client = create_api_client_withKey('customsearch','v1')
+	
+    def getFirstImage(self,query):
+	res = self.cse_client.cse().list(
+      q=str(query),
+      cx='002657803801302330803:gatc1h4ugpi',
+	num=1,
+	searchType="image",
+	imgSize="medium",
+	imgType="photo",
+    ).execute()
+	first_image_link = res['items'][0]['link']
+	print first_image_link
+	print self.upload_image(first_image_link)
+	
+    def upload_image(self,link):
+	parts = link.split(".")
+	ext = parts[len(parts)-1]
+	body = {
+        'name': "output/"+self.filename+"."+str(ext),
+    	}
+	
+	stream = cStringIO.StringIO(urllib.urlopen(link).read())
+	req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, "image/"+str(ext)))
+	resp = req.execute()
+	return resp
+	
 	
     def upload_object(self,content):
 	body = {
@@ -86,7 +127,7 @@ class Process(object):
         try:
             vision_request = self.vision_client.images().annotate(body={'requests': vision_body})
             vision_response = vision_request.execute()
-            #print vision_response
+            #print(json.dumps(vision_response,indent=2))
 	    Logger.log_writer("Response is: {0}".format(vision_response))
             if 'responses' not in vision_response:
                 return {}

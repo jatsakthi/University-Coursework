@@ -93,10 +93,13 @@ def main(toprocess, subscription,refresh):
 				ingredients = []
 				ingredients.append("NO_RESULT")
 			else:
-				ingredients = crawl.find(content[filename][0].encode('utf-8'))
+				searchTerm = content[filename][0].encode('utf-8')
+				ingredients = crawl.find(searchTerm)
 				print ingredients
 				if len(ingredients)==0:
 					ingredients.append("NO_RESULT")
+				else:
+					m.getFirstImage(searchTerm)
 			writeResponse = m.upload_object(ingredients)
 			print "WRITE Response:"
 			print(json.dumps(writeResponse,indent=2))
