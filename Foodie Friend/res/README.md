@@ -1,12 +1,13 @@
 Resource files
 
-Verison 2:
+Verison 3:
 1. User uploads cropped Image to source bucket to which watcher is connected
 2. User gets back the details of the food at output folder in the same bucket.
 
 3. No result handled
 4. No extracted text case handled
 5. Encoding errors handled
+6. Image (Medium,Photo) also downloaded at bucket
 Details are gathered by wikipedia.
 
 Commands:
