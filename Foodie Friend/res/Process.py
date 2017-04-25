@@ -61,7 +61,7 @@ class Process(object):
     ).execute()
 	first_image_link = res['items'][0]['link']
 	print first_image_link
-	print upload_image(first_image_link)
+	print self.upload_image(first_image_link)
 	
     def upload_image(self,link):
 	body = {
