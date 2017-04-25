@@ -65,7 +65,7 @@ class Process(object):
 	
     def upload_image(self,link):
 	body = {
-        'name': "output/"+self.filename+".txt",
+        'name': "output/"+self.filename+".jpg",
     	}
 	
 	stream = cStringIO.StringIO(urllib.urlopen(link).read())
