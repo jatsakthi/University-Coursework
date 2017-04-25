@@ -47,6 +47,8 @@ class Process(object):
 	res = self.cse_client.cse().list(
       q=str(query),
       cx='017576662512468239146:omuauf_lfve',
+	num=1,
+	searchType="image",
     ).execute()
 	first_image_link = res['items'][0]['link']
 	print first_image_link
