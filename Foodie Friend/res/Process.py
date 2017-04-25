@@ -64,12 +64,14 @@ class Process(object):
 	print self.upload_image(first_image_link)
 	
     def upload_image(self,link):
+	parts = link.split(".")
+	ext = parts[len(parts)-1]
 	body = {
-        'name': "output/"+self.filename+".jpg",
+        'name': "output/"+self.filename+"."+str(ext),
     	}
 	
 	stream = cStringIO.StringIO(urllib.urlopen(link).read())
-	req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, 'image/jpg'))
+	req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, "image/"+str(ext)))
 	resp = req.execute()
 	return resp
 	
