@@ -102,7 +102,7 @@ class Process(object):
         try:
             vision_request = self.vision_client.images().annotate(body={'requests': vision_body})
             vision_response = vision_request.execute()
-            print(json.dumps(vision_response,indent=2))
+            #print(json.dumps(vision_response,indent=2))
 	    Logger.log_writer("Response is: {0}".format(vision_response))
             if 'responses' not in vision_response:
                 return {}
