@@ -43,7 +43,7 @@ class Process(object):
       q=str(query),
       cx='017576662512468239146:omuauf_lfve',
     ).execute()
-	first_image_link = print res['items'][0]['link']
+	first_image_link = res['items'][0]['link']
 	print first_image_link
 	
     def upload_object(self,content):
