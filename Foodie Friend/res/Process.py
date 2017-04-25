@@ -58,6 +58,8 @@ class Process(object):
       cx='002657803801302330803:gatc1h4ugpi',
 	num=1,
 	searchType="image",
+	imgSize="medium",
+	imgType="photo",
     ).execute()
 	first_image_link = res['items'][0]['link']
 	print first_image_link
