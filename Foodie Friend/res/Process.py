@@ -5,6 +5,8 @@ import sys
 import tempfile
 import logging
 import json
+import urllib
+import cStringIO
 
 from googleapiclient.discovery import build
 import googleapiclient.http as e
@@ -36,6 +38,12 @@ def create_gcs_client():
 
 class Process(object):
     def __init__(self, bucket, filename, filetype, project_id):
+	
+	print ("bucket:{0}".format(str(bucket)))
+	print ("filename:{0}".format(str(filename)))
+	print ("filetype:{0}".format(str(filetype)))
+	print ("project_id:{0}".format(str(project_id)))
+	
         self.project_id = project_id
         self.bucket = bucket
         self.filename = filename
@@ -43,6 +51,7 @@ class Process(object):
         self.vision_client = create_api_client('vision', 'v1')
 	self.gcs_client = create_gcs_client()
 	self.cse_client = create_api_client_withKey('customsearch','v1')
+	
     def getFirstImage(self,query):
 	res = self.cse_client.cse().list(
       q=str(query),
@@ -52,6 +61,18 @@ class Process(object):
     ).execute()
 	first_image_link = res['items'][0]['link']
 	print first_image_link
+	print upload_image(first_image_link)
+	
+    def upload_image(self,link):
+	body = {
+        'name': "output/"+self.filename+".txt",
+    	}
+	
+	stream = cStringIO.StringIO(urllib.urlopen(link).read())
+	req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, 'image/jpg'))
+	resp = req.execute()
+	return resp
+	
 	
     def upload_object(self,content):
 	body = {
