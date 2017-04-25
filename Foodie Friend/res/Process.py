@@ -23,6 +23,11 @@ def create_api_client(which_api, version):
     credentials = GoogleCredentials.get_application_default()
     return build(which_api, version, credentials=credentials, discoveryServiceUrl=DISCOVERY_URL)
 
+def create_api_client_withKey(which_api, version):
+    """Returns a Cloud Logging service client for calling the API."""
+    credentials = GoogleCredentials.get_application_default()
+    return build(which_api, version, developerKey="AIzaSyCZGWBJttrKhTjcy6tRjSaJA52zctUb1e4")
+
 def create_gcs_client():
     """Returns a Cloud PubSub service client for calling the API."""
     credentials = GoogleCredentials.get_application_default()
@@ -37,7 +42,7 @@ class Process(object):
         self.filetype = filetype
         self.vision_client = create_api_client('vision', 'v1')
 	self.gcs_client = create_gcs_client()
-	self.cse_client = create_api_client('customsearch','v1')
+	self.cse_client = create_api_client_withKey('customsearch','v1')
     def getFirstImage(self,query):
 	res = self.cse_client.cse().list(
       q=str(query),
