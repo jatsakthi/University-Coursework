@@ -76,17 +76,17 @@ class Process(object):
 	req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, "image/"+str(ext)))
 	resp = req.execute()
 	return resp
-    def get_object(self,out_file):
+    def get_object(self):
 	    req = self.gcs_client.objects().get_media(bucket=self.bucket, object=self.filename)
-
+	    out_file = e.BytesIO()
 	    downloader = e.MediaIoBaseDownload(out_file, req)
 
 	    done = False
 	    while done is False:
 		status, done = downloader.next_chunk()
 		print("Download {}%.".format(int(status.progress() * 100)))
-
-	    return out_file
+	    coordinates = out_file.getvalue().split("\n")[:2] 
+	    return coordinates
 	
     def upload_object(self,content):
 	body = {
