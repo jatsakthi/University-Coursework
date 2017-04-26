@@ -88,21 +88,31 @@ def main(toprocess, subscription,refresh):
 
 	# <Your custom process>
 			m = Process(bucket, filename, filetype, PROJECT_ID)
-			content = m.img_to_text()
-			if len(content[filename])==0:
-				ingredients = []
-				ingredients.append("NO_RESULT")
-			else:
-				searchTerm = content[filename][0].encode('utf-8')
-				ingredients = crawl.find(searchTerm)
-				print ingredients
-				if len(ingredients)==0:
+			filetype = str(filetype)
+			if filetype.startswith('image') == True:
+				Logger.log_writer("IMAGE FILE FOUND")
+				print "IMAGE FILE FOUND"
+				content = m.img_to_text()
+				if len(content[filename])==0:
+					ingredients = []
 					ingredients.append("NO_RESULT")
 				else:
-					m.getFirstImage(searchTerm)
-			writeResponse = m.upload_object(ingredients)
-			print "WRITE Response:"
-			print(json.dumps(writeResponse,indent=2))
+					searchTerm = content[filename][0].encode('utf-8')
+					ingredients = crawl.find(searchTerm)
+					print ingredients
+					if len(ingredients)==0:
+						ingredients.append("NO_RESULT")
+					else:
+						m.getFirstImage(searchTerm)
+				writeResponse = m.upload_object(ingredients)
+				print "WRITE Response:"
+				print(json.dumps(writeResponse,indent=2))
+			elif filetype.startswith('plain') == True:
+				Logger.log_writer("TEXT FILE FOUND")
+				print "TEXT FILE FOUND"
+			else:
+				Logger.log_writer("{0} of {1} filetype not supported".format(str(filename),filetype))
+				print("{0} of {1} filetype not supported".format(str(filename),filetype))
 
 	# <End of your custom process>
 
