@@ -76,7 +76,7 @@ class Process(object):
 	req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, "image/"+str(ext)))
 	resp = req.execute()
 	return resp
-    def get_object(out_file):
+    def get_object(self,out_file):
 	    req = self.gcs_client.objects().get_media(bucket=self.bucket, object=self.filename)
 
 	    downloader = e.MediaIoBaseDownload(out_file, req)
