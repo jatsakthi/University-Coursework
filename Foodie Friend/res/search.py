@@ -217,7 +217,7 @@ class GoogleSearch(object):
 	for side in sideBox:
 		ele = side.findAll('div',{"class":'_o0d'})
 		ret_res = []
-		#print "#########################################"
+		#print "########################################"
 		for line in ele:
 			#print line
 			texts = line.findAll(text=True)
