@@ -105,7 +105,7 @@ class Process(object):
 		    while done is False:
 			status, done = downloader.next_chunk()
 			print("Download {}%.".format(int(status.progress() * 100)))
-		    coordinates = out_file.getvalue().split("\n")[:2]
+		    coordinates = out_file.getvalue().split(",")[:2]
 		    out_file.close()
 		    return coordinates
 	def upload_local_image(self,filename):
