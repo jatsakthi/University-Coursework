@@ -104,6 +104,17 @@ class Process(object):
 		    coordinates = out_file.getvalue().split("\n")[:2]
 		    out_file.close()
 		    return coordinates
+	def upload_local_image(self,filename):
+		body = {
+			'name': self.uploadFolderName+"_output"+"/"+self.uploadFileName+".jpg",
+		    }
+		
+		with open(filename, 'rb') as f:
+			req = self.gcs_client.objects().insert(
+			    bucket=self.bucket, body=body,media_body=e.MediaIoBaseUpload(
+				f, "image/jpg"))
+			resp = req.execute()
+		return resp
 	
 	def find_suggestions(self,latitude,longitude):
 		print "FUNCTION: Process.find_suggestions"
