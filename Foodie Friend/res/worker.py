@@ -95,6 +95,8 @@ def main(toprocess, subscription,refresh):
 				print "IMAGE FILE FOUND"
 				content = m.img_to_text()
 				if len(content[filename])==0:
+					print 'Food Name not found'
+					Logger.log_writer('Food Name not found')
 					ingredients = []
 					ingredients.append("Sorry ! We couldn't help.")
 					print m.upload_local_image("/tmp/food/noresult.jpg")
@@ -103,6 +105,8 @@ def main(toprocess, subscription,refresh):
 					ingredients = crawl.find(searchTerm)
 					print ingredients
 					if len(ingredients)==0:
+						print 'Food Details not found'
+						Logger.log_writer('Food Details not found')
 						ingredients.append("Sorry ! We couldn't help.")
 						print m.upload_local_image("/tmp/food/noresult.jpg")
 					else:
