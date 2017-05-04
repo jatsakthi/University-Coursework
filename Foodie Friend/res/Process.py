@@ -119,7 +119,7 @@ class Process(object):
 		with open(filename, 'rb') as f:
 			req = self.gcs_client.objects().insert(
 			    bucket=self.bucket, body=body,media_body=e.MediaIoBaseUpload(
-				f, "image/jpg"))
+				f, "image/jpeg"))
 			resp = req.execute()
 		return resp
 	
