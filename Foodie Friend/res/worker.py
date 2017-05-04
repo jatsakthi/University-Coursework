@@ -113,8 +113,9 @@ def main(toprocess, subscription,refresh):
 			elif filetype.startswith('text') or filetype.startswith('application/octet-stream'):
 				Logger.log_writer("TEXT FILE FOUND")
 				print "TEXT FILE FOUND"
-				print m.get_object()
-				m.find_suggestions(33.42150,-111.92035)
+				coordinates = m.get_object()
+				print coordinates
+				m.find_suggestions(coordinates[0],coordinates[1])
 			else:
 				Logger.log_writer("{0} of {1} filetype not supported".format(str(filename),filetype))
 				print("{0} of {1} filetype not supported".format(str(filename),filetype))
