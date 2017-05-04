@@ -34,13 +34,12 @@ class FourSquare:
 		'll': self.lat+','+self.lon,
 		'section':'food',
 		'venuePhotos':'1',
-		'v':'20170428',
-		'limit':'5',
-		'openNow':'1'
+		'v':'20170504',
+		'limit':'5'
     		})
 		
 		headers = {
-        	'content-type': 'application/x-www-form-urlencoded',
+        	'content-type': 'application/x-www-form-urldecoded',
     		}
 	
 		response = requests.get(self.URL, params=data, headers=headers)
@@ -53,21 +52,30 @@ class FourSquare:
 			if item.has_key("tips"):
 				restaurant = ET.SubElement(restaurants, "restaurant")
 				#print(json.dumps(item,indent=2))
-				name = item["venue"]["name"].encode('utf-8')
+				name = item["venue"]["name"].encode('utf-8').decode('utf-8')
 
 				address = ",".join(item["venue"]["location"]["formattedAddress"])
-				address = address.encode('utf-8')
-
-				Type = item["venue"]["categories"][0]["name"].encode('utf-8')
+				address = address.encode('utf-8').decode('utf-8')
+				
+				
+				Type = item["venue"]["categories"][0]["name"].encode('utf-8').decode('utf-8')
 
 				pic = item["venue"]["photos"]["groups"][0]["items"][0]
-				link = pic["prefix"].encode('utf-8')+'original'+pic["suffix"].encode('utf-8')
+				link = pic["prefix"].encode('utf-8').decode('utf-8')+'original'+pic["suffix"].encode('utf-8').decode('utf-8')
 
-				comment = item["tips"][0]["text"].encode('utf-8')
+				comment = item["tips"][0]["text"].encode('utf-8').decode('utf-8')
 				location = item["venue"]["location"]
 				latitude = location["lat"]
 				longitude = location["lng"]
-
+				'''
+				print(name)
+				print(address)
+				print(Type)
+				print(link)
+				print(comment)
+				print(latitude)
+				print(longitude)
+				'''
 				ET.SubElement(restaurant, "name", name="name").text = name
 				ET.SubElement(restaurant, "address", name="address").text = address
 				ET.SubElement(restaurant, "type", name="type").text = Type
@@ -78,16 +86,16 @@ class FourSquare:
 				ET.SubElement(restaurant, "latitude", name="latitude").text = str(latitude)
 				ET.SubElement(restaurant, "longitude", name="longitude").text = str(longitude)
 		
-				#print "--------------------------------{}------------".format(name)
+				#print "--------------------------------{0}/{1}------------".format(name,address)
 		#print(json.dumps(data,indent=2))
 		tree = ET.ElementTree(restaurants)
-		#tree.write("filename.xml")
+		#tree.write("filename.xml")		
 		return tree
-	
 
 if __name__=='__main__':
+	#c = 33.42150
+	#d = -111.92035
 	c = 33.30
 	d = -111.84
 	e = FourSquare(c,d)
-	f = e.req()
-	
+	e.req()
