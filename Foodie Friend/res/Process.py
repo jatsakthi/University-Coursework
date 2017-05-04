@@ -73,7 +73,7 @@ class Process(object):
 		if len(res['items'])==1:
 			resultFound = True
 		else:
-			current++
+			current += 1
 	first_image_link = res['items'][0]['link']
 	print first_image_link
 	print self.upload_image(first_image_link)
