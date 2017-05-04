@@ -93,7 +93,6 @@ def main(toprocess, subscription,refresh):
 				
 				Logger.log_writer("IMAGE FILE FOUND")
 				print "IMAGE FILE FOUND"
-				'''
 				content = m.img_to_text()
 				if len(content[filename])==0:
 					ingredients = []
@@ -109,7 +108,6 @@ def main(toprocess, subscription,refresh):
 				writeResponse = m.upload_object(ingredients)
 				print "WRITE Response:"
 				print(json.dumps(writeResponse,indent=2))
-				'''
 			elif filetype.startswith('text') or filetype.startswith('application/octet-stream'):
 				Logger.log_writer("TEXT FILE FOUND")
 				print "TEXT FILE FOUND"
