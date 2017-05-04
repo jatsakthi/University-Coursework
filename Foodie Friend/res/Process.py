@@ -57,14 +57,23 @@ class Process(object):
 	
     def getFirstImage(self,query):
 	print "FUNCTION: getFirstImage"
-	res = self.cse_client.cse().list(
-      q=str(query),
-      cx='002657803801302330803:gatc1h4ugpi',
-	num=1,
-	searchType="image",
-	imgSize="medium",
-	imgType="photo",
-    ).execute()
+	resultFound = False
+	types = ('jpg','JPG','png')
+	current = 0
+	while current<=2 and resultFound == False:
+	      	res = self.cse_client.cse().list(
+	      	q=str(query),
+	      	cx='002657803801302330803:gatc1h4ugpi',
+		num=1,
+		searchType="image",
+		imgSize="medium",
+		imgType="photo",
+		fileType=types[current],
+	    ).execute()
+		if len(res['items'])==1:
+			resultFound = True
+		else:
+			current++
 	first_image_link = res['items'][0]['link']
 	print first_image_link
 	print self.upload_image(first_image_link)
