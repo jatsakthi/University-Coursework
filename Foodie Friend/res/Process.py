@@ -98,7 +98,7 @@ class Process(object):
 	uploadFolderName = self.filename.split("/")[0].split("_")[0]
 	uploadFileName = uploadFileName.split(".")[0]
 	body = {
-        'name': uploadFolderName+"/"+uploadFileName+".txt",
+        'name': uploadFolderName+"_output"+"/"+uploadFileName+".txt",
     	}
 	
 	stream = e.BytesIO()
