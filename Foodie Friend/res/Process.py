@@ -105,9 +105,9 @@ class Process(object):
 		    out_file.close()
 		    return coordinates
 	
-	def find_suggestions(self,lat,long):
+	def find_suggestions(self,latitude,longitude):
 		print "FUNCTION: Process.find_suggestions"
-		foursquareAPI = FourSquare(lat,long)
+		foursquareAPI = FourSquare(latitude,longitude)
 		output = foursquareAPI.req()
 		print output
 		print self.upload_XMLobject(output)
