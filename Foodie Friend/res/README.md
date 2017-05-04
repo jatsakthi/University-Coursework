@@ -1,13 +1,16 @@
 Resource files
 
-Verison 3:
+Verison 4:
 1. User uploads cropped Image to source bucket to which watcher is connected
-2. User gets back the details of the food at output folder in the same bucket.
-
+2. Four buckets - Photo_input, Photo_output,Location_input,Location_output
 3. No result handled
 4. No extracted text case handled
 5. Encoding errors handled
 6. Image (Medium,Photo) also downloaded at bucket
+7. Only Jpg,Png pics downloaded
+8. Suggestions handled by FourSquare
+9. Suggestions given in XML format
+
 Details are gathered by wikipedia.
 
 Commands:

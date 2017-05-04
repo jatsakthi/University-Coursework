@@ -217,7 +217,7 @@ class GoogleSearch(object):
 	for side in sideBox:
 		ele = side.findAll('div',{"class":'_o0d'})
 		ret_res = []
-		#print "#########################################"
+		#print "########################################"
 		for line in ele:
 			#print line
 			texts = line.findAll(text=True)
@@ -227,7 +227,8 @@ class GoogleSearch(object):
 					# TITLE LINE
 					if len(texts)>1:
 						texts[0] += "("+texts[1]+")"
-					ret_res.append("Title: \t " + texts[0])
+					#ret_res.append("Title: \t " + texts[0])
+					ret_res.append(texts[0])
 				elif len(line.findAll('div',{"class":'_tXc'}))>0:
 					# INTRO LINE
 					ret_res.append("Intro: \t " + texts[0])
