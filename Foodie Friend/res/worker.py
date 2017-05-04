@@ -90,9 +90,10 @@ def main(toprocess, subscription,refresh):
 			m = Process(bucket, filename, filetype, PROJECT_ID)
 			filetype = str(filetype)
 			if filetype.startswith('image') == True:
-				'''
+				
 				Logger.log_writer("IMAGE FILE FOUND")
 				print "IMAGE FILE FOUND"
+				'''
 				content = m.img_to_text()
 				if len(content[filename])==0:
 					ingredients = []
