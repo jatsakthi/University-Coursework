@@ -38,7 +38,7 @@ def create_gcs_client():
 
 class Process(object):
     def __init__(self, bucket, filename, filetype, project_id):
-	
+	print "FUNCTION: constructor"
 	print ("bucket:{0}".format(str(bucket)))
 	print ("filename:{0}".format(str(filename)))
 	print ("filetype:{0}".format(str(filetype)))
@@ -53,6 +53,7 @@ class Process(object):
 	self.cse_client = create_api_client_withKey('customsearch','v1')
 	
     def getFirstImage(self,query):
+	print "FUNCTION: getFirstImage"
 	res = self.cse_client.cse().list(
       q=str(query),
       cx='002657803801302330803:gatc1h4ugpi',
@@ -66,6 +67,7 @@ class Process(object):
 	print self.upload_image(first_image_link)
 	
     def upload_image(self,link):
+	print "FUNCTION: upload_image"
 	parts = link.split(".")
 	ext = parts[len(parts)-1]
 	body = {
@@ -77,6 +79,7 @@ class Process(object):
 	resp = req.execute()
 	return resp
     def get_object(self):
+	    print "FUNCTION: get_object"
 	    req = self.gcs_client.objects().get_media(bucket=self.bucket, object=self.filename)
 	    out_file = e.BytesIO()
 	    downloader = e.MediaIoBaseDownload(out_file, req)
@@ -90,6 +93,7 @@ class Process(object):
 	    return coordinates
 	
     def upload_object(self,content):
+	print "FUNCTION: upload_object"
 	body = {
         'name': "output/"+self.filename+".txt",
     	}
@@ -120,7 +124,7 @@ class Process(object):
 	return resp
 
     def img_to_text(self):
-        print "Starting"
+        print "FUNCTION: img_to_text"
 
         vision_body ={
               "features": [{
