@@ -111,7 +111,7 @@ def main(toprocess, subscription,refresh):
 			elif filetype.startswith('text') or filetype.startswith('application/octet-stream'):
 				Logger.log_writer("TEXT FILE FOUND")
 				print "TEXT FILE FOUND"
-				m.find_suggestions(33.30,-111.84)
+				m.find_suggestions(33.42150,-111.92035)
 			else:
 				Logger.log_writer("{0} of {1} filetype not supported".format(str(filename),filetype))
 				print("{0} of {1} filetype not supported".format(str(filename),filetype))
