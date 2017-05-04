@@ -92,7 +92,7 @@ class Process(object):
 	    out_file.close()
 	    return coordinates
 	
-    def upload_object(self,folderName,content):
+    def upload_object(self,content):
 	print "FUNCTION: upload_object"
 	uploadFileName = self.filename.split("/")[1]
 	uploadFolderName = self.filename.split("/")[0].split("_")[0]
