@@ -51,6 +51,9 @@ class Process(object):
         self.vision_client = create_api_client('vision', 'v1')
 	self.gcs_client = create_gcs_client()
 	self.cse_client = create_api_client_withKey('customsearch','v1')
+	self.uploadFileName = self.filename.split("/")[1]
+	self.uploadFolderName = self.filename.split("/")[0].split("_")[0]
+	self.uploadFileName = self.uploadFileName.split(".")[0]
 	
     def getFirstImage(self,query):
 	print "FUNCTION: getFirstImage"
@@ -71,7 +74,7 @@ class Process(object):
 	parts = link.split(".")
 	ext = parts[len(parts)-1]
 	body = {
-        'name': "output/"+self.filename+"."+str(ext),
+        'name': self.uploadFolderName+"_output"+"/"+self.uploadFileName+"."+str(ext),
     	}
 	
 	stream = cStringIO.StringIO(urllib.urlopen(link).read())
@@ -94,11 +97,8 @@ class Process(object):
 	
     def upload_object(self,content):
 	print "FUNCTION: upload_object"
-	uploadFileName = self.filename.split("/")[1]
-	uploadFolderName = self.filename.split("/")[0].split("_")[0]
-	uploadFileName = uploadFileName.split(".")[0]
 	body = {
-        'name': uploadFolderName+"_output"+"/"+uploadFileName+".txt",
+        'name': self.uploadFolderName+"_output"+"/"+self.uploadFileName+".txt",
     	}
 	
 	stream = e.BytesIO()
