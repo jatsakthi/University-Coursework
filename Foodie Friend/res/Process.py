@@ -92,10 +92,13 @@ class Process(object):
 	    out_file.close()
 	    return coordinates
 	
-    def upload_object(self,content):
+    def upload_object(self,folderName,content):
 	print "FUNCTION: upload_object"
+	uploadFileName = self.filename.split("/")[1]
+	uploadFolderName = self.filename.split("/")[0].split("_")[0]
+	uploadFileName = uploadfileName.split(".")[0]
 	body = {
-        'name': "output/"+self.filename+".txt",
+        'name': uploadFolderName+"/"+uploadFileName+".txt",
     	}
 	
 	stream = e.BytesIO()
