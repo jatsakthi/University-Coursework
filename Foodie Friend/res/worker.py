@@ -103,6 +103,7 @@ def main(toprocess, subscription,refresh):
 					print ingredients
 					if len(ingredients)==0:
 						ingredients.append("NO_RESULT")
+						m.upload_local_image("/tmp/food/noresult.jpg")
 					else:
 						m.getFirstImage(searchTerm)
 				writeResponse = m.upload_object(ingredients)
