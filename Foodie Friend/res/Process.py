@@ -60,23 +60,25 @@ class Process(object):
 	def getFirstImage(self,query):
 		print "FUNCTION: getFirstImage"
 		Logger.log_writer("FUNCTION: getFirstImage")
-		resultFound = False
-		types = ('jpg','JPG','png')
-		current = 0
-		while current<=2 and resultFound == False:
-			res = self.cse_client.cse().list(
-			q=str(query),
-			cx='002657803801302330803:gatc1h4ugpi',
-			num=1,
-			searchType="image",
-			imgSize="medium",
-			imgType="photo",
-			fileType=types[current],
-		    ).execute()
+		#resultFound = False
+		#types = ('jpg')
+		#current = 0
+		#while current<=0 and resultFound == False:
+		res = self.cse_client.cse().list(
+		q=str(query),
+		cx='002657803801302330803:gatc1h4ugpi',
+		num=1,
+		searchType="image",
+		imgSize="medium",
+		imgType="photo",
+		fileType="jpg",
+	    	).execute()
+			'''
 			if len(res['items'])==1:
 				resultFound = True
 			else:
 				current += 1
+			'''
 		first_image_link = res['items'][0]['link']
 		print first_image_link
 		Logger.log_writer("Image Link:{}".format(first_image_link))
@@ -92,7 +94,7 @@ class Process(object):
 		}
 
 		stream = cStringIO.StringIO(urllib.urlopen(link).read())
-		req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, "image/"+str(ext)))
+		req = self.gcs_client.objects().insert(bucket=self.bucket,body=body,media_body=e.MediaIoBaseUpload(stream, "image/jpeg"))
 		resp = req.execute()
 		#Logger.log_writer("Response:{}".format(resp))
 		return resp
