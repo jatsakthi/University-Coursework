@@ -96,14 +96,14 @@ def main(toprocess, subscription,refresh):
 				content = m.img_to_text()
 				if len(content[filename])==0:
 					ingredients = []
-					ingredients.append("NO_RESULT")
+					ingredients.append("Sorry ! We couldn't help.")
 					print m.upload_local_image("/tmp/food/noresult.jpg")
 				else:
 					searchTerm = content[filename][0].encode('utf-8')
 					ingredients = crawl.find(searchTerm)
 					print ingredients
 					if len(ingredients)==0:
-						ingredients.append("NO_RESULT")
+						ingredients.append("Sorry ! We couldn't help.")
 						print m.upload_local_image("/tmp/food/noresult.jpg")
 					else:
 						m.getFirstImage(searchTerm)
