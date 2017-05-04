@@ -14,7 +14,7 @@ from googleapiclient import http, errors
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
 from logger import Logger
-from FourSquare import FourSquare
+from foursquare import FourSquare
 
 
 DISCOVERY_URL = 'https://{api}.googleapis.com/$discovery/rest?version={apiVersion}'
