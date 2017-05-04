@@ -73,12 +73,12 @@ class Process(object):
 		imgType="photo",
 		fileType="jpg",
 	    	).execute()
-			'''
+		'''
 			if len(res['items'])==1:
 				resultFound = True
 			else:
 				current += 1
-			'''
+		'''
 		first_image_link = res['items'][0]['link']
 		print first_image_link
 		Logger.log_writer("Image Link:{}".format(first_image_link))
