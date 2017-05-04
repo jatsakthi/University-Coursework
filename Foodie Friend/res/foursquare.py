@@ -81,12 +81,13 @@ class FourSquare:
 				#print "--------------------------------{}------------".format(name)
 		#print(json.dumps(data,indent=2))
 		tree = ET.ElementTree(restaurants)
-		tree.write("filename.xml")		
+		#tree.write("filename.xml")
+		return tree
 	
 
 if __name__=='__main__':
 	c = 33.30
 	d = -111.84
 	e = FourSquare(c,d)
-	e.req()
+	f = e.req()
 	
