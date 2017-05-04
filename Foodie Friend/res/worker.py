@@ -95,14 +95,20 @@ def main(toprocess, subscription,refresh):
 				print "IMAGE FILE FOUND"
 				content = m.img_to_text()
 				if len(content[filename])==0:
+					print 'Food Name not found'
+					Logger.log_writer('Food Name not found')
 					ingredients = []
-					ingredients.append("NO_RESULT")
+					ingredients.append("Sorry ! We couldn't help.")
+					print m.upload_local_image("/tmp/food/noresult.jpg")
 				else:
 					searchTerm = content[filename][0].encode('utf-8')
 					ingredients = crawl.find(searchTerm)
 					print ingredients
 					if len(ingredients)==0:
-						ingredients.append("NO_RESULT")
+						print 'Food Details not found'
+						Logger.log_writer('Food Details not found')
+						ingredients.append("Sorry ! We couldn't help.")
+						print m.upload_local_image("/tmp/food/noresult.jpg")
 					else:
 						m.getFirstImage(searchTerm)
 				writeResponse = m.upload_object(ingredients)
@@ -111,7 +117,9 @@ def main(toprocess, subscription,refresh):
 			elif filetype.startswith('text') or filetype.startswith('application/octet-stream'):
 				Logger.log_writer("TEXT FILE FOUND")
 				print "TEXT FILE FOUND"
-				m.find_suggestions(33.42150,-111.92035)
+				coordinates = m.get_object()
+				print coordinates
+				m.find_suggestions(coordinates[0],coordinates[1])
 			else:
 				Logger.log_writer("{0} of {1} filetype not supported".format(str(filename),filetype))
 				print("{0} of {1} filetype not supported".format(str(filename),filetype))

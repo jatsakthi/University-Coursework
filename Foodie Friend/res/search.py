@@ -47,6 +47,7 @@ class SearchResult:
     def __str__(self):
         return 'Google Search Result: "%s"' % self.title
 
+
 class GoogleSearch(object):
     SEARCH_URL_0 = "http://www.google.%(tld)s/search?hl=%(lang)s&q=%(query)s&btnG=Google+Search"
     NEXT_PAGE_0 = "http://www.google.%(tld)s/search?hl=%(lang)s&q=%(query)s&start=%(start)d"
@@ -217,18 +218,19 @@ class GoogleSearch(object):
 	for side in sideBox:
 		ele = side.findAll('div',{"class":'_o0d'})
 		ret_res = []
-		#print "########################################"
+		#print "#########################################"
 		for line in ele:
+			#print "########---------->"
 			#print line
 			texts = line.findAll(text=True)
 			#print "T:"+ str(list(texts))
 			if len(texts)>0:
 				if len(line.findAll('div',{"class":'_B5d'}))>0:
+					#print "first found"
 					# TITLE LINE
 					if len(texts)>1:
 						texts[0] += "("+texts[1]+")"
-					#ret_res.append("Title: \t " + texts[0])
-					ret_res.append(texts[0])
+					ret_res.append("Title: \t " + texts[0])
 				elif len(line.findAll('div',{"class":'_tXc'}))>0:
 					# INTRO LINE
 					ret_res.append("Intro: \t " + texts[0])
@@ -247,5 +249,5 @@ class GoogleSearch(object):
                 ret_res.append(eres)
         return ret_res
 	'''
-	#print "sending" + info
+	#print ret_res
 	return ret_res

@@ -10,13 +10,15 @@ def find(food_name):
 	  gs = GoogleSearch(food_name)
 	  gs.results_per_page = 10
 	  results = gs.get_results()
+	  #print results
 	  lines = []
 	  for res in results:
 	    lines.append(res.encode("utf8"))
+	  
 	  return lines
 	except SearchError, e:
 	  print "Search failed: %s" % e
 
 if __name__ == '__main__':
-    find()
+    print find("burger")
 

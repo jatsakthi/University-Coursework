@@ -1,6 +1,6 @@
 Resource files
 
-Verison 4:
+Verison 5:
 1. User uploads cropped Image to source bucket to which watcher is connected
 2. Four buckets - Photo_input, Photo_output,Location_input,Location_output
 3. No result handled
@@ -10,6 +10,7 @@ Verison 4:
 7. Only Jpg,Png pics downloaded
 8. Suggestions handled by FourSquare
 9. Suggestions given in XML format
+10. timestamp.jpg uploaded for no result case
 
 Details are gathered by wikipedia.
 

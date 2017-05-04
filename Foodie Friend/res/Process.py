@@ -40,6 +40,7 @@ def create_gcs_client():
 class Process(object):
 	def __init__(self, bucket, filename, filetype, project_id):
 		print "FUNCTION: constructor"
+		Logger.log_writer("FUNCTION: constructor")
 		print ("bucket:{0}".format(str(bucket)))
 		print ("filename:{0}".format(str(filename)))
 		print ("filetype:{0}".format(str(filetype)))
@@ -58,6 +59,7 @@ class Process(object):
 	
 	def getFirstImage(self,query):
 		print "FUNCTION: getFirstImage"
+		Logger.log_writer("FUNCTION: getFirstImage")
 		resultFound = False
 		types = ('jpg','JPG','png')
 		current = 0
@@ -81,6 +83,7 @@ class Process(object):
 	
 	def upload_image(self,link):
 		print "FUNCTION: upload_image"
+		Logger.log_writer("FUNCTION: upload_image")
 		parts = link.split(".")
 		ext = parts[len(parts)-1]
 		body = {
@@ -93,6 +96,7 @@ class Process(object):
 		return resp
 	def get_object(self):
 		    print "FUNCTION: get_object"
+		    Logger.log_writer("FUNCTION: get_object")
 		    req = self.gcs_client.objects().get_media(bucket=self.bucket, object=self.filename)
 		    out_file = e.BytesIO()
 		    downloader = e.MediaIoBaseDownload(out_file, req)
@@ -101,12 +105,27 @@ class Process(object):
 		    while done is False:
 			status, done = downloader.next_chunk()
 			print("Download {}%.".format(int(status.progress() * 100)))
-		    coordinates = out_file.getvalue().split("\n")[:2]
+		    coordinates = out_file.getvalue().split(",")[:2]
 		    out_file.close()
 		    return coordinates
+	def upload_local_image(self,filename):
+		print "FUNCTION: Process.upload_local_image"
+		Logger.log_writer("FUNCTION: Process.upload_local_image")
+		
+		body = {
+			'name': self.uploadFolderName+"_output"+"/"+self.uploadFileName+".jpg",
+		    }
+		
+		with open(filename, 'rb') as f:
+			req = self.gcs_client.objects().insert(
+			    bucket=self.bucket, body=body,media_body=e.MediaIoBaseUpload(
+				f, "image/jpeg"))
+			resp = req.execute()
+		return resp
 	
 	def find_suggestions(self,latitude,longitude):
 		print "FUNCTION: Process.find_suggestions"
+		Logger.log_writer("FUNCTION: Process.find_suggestions")
 		foursquareAPI = FourSquare(latitude,longitude)
 		output = foursquareAPI.req()
 		print output
@@ -114,6 +133,7 @@ class Process(object):
 
 	def upload_XMLobject(self,content):
 		print "FUNCTION: upload_XMLobject"
+		Logger.log_writer("FUNCTION: upload_XMLobject")
 		body = {
         'name': self.uploadFolderName+"_output"+"/"+self.uploadFileName+".xml",
     	}
@@ -125,6 +145,7 @@ class Process(object):
 		
 	def upload_object(self,content):
 		print "FUNCTION: upload_object"
+		Logger.log_writer("FUNCTION: upload_object")
 		body = {
 		'name': self.uploadFolderName+"_output"+"/"+self.uploadFileName+".txt",
 		}
@@ -156,6 +177,7 @@ class Process(object):
 
 	def img_to_text(self):
 		print "FUNCTION: img_to_text"
+		Logger.log_writer("FUNCTION: img_to_text")
 
 		vision_body ={
 		      "features": [{
