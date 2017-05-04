@@ -90,6 +90,7 @@ def main(toprocess, subscription,refresh):
 			m = Process(bucket, filename, filetype, PROJECT_ID)
 			filetype = str(filetype)
 			if filetype.startswith('image') == True:
+				'''
 				Logger.log_writer("IMAGE FILE FOUND")
 				print "IMAGE FILE FOUND"
 				content = m.img_to_text()
@@ -107,6 +108,7 @@ def main(toprocess, subscription,refresh):
 				writeResponse = m.upload_object(ingredients)
 				print "WRITE Response:"
 				print(json.dumps(writeResponse,indent=2))
+				'''
 			elif filetype.startswith('text') == True:
 				Logger.log_writer("TEXT FILE FOUND")
 				print "TEXT FILE FOUND"
