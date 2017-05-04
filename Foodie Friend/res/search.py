@@ -213,15 +213,15 @@ class GoogleSearch(object):
     def _extract_results(self, soup):
 	
 	sideBox = soup.findAll('td',{"id" : 'rhs_block'})
-	#print sideBox
+	print sideBox
 	for side in sideBox:
 		ele = side.findAll('div',{"class":'_o0d'})
 		ret_res = []
 		#print "########################################"
 		for line in ele:
-			#print line
+			print line
 			texts = line.findAll(text=True)
-			#print "T:"+ str(list(texts))
+			print "T:"+ str(list(texts))
 			if len(texts)>0:
 				if len(line.findAll('div',{"class":'_B5d'}))>0:
 					# TITLE LINE
