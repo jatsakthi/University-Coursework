@@ -110,7 +110,7 @@ def main(toprocess, subscription,refresh):
 				print "WRITE Response:"
 				print(json.dumps(writeResponse,indent=2))
 				'''
-			elif filetype.startswith('text') == True:
+			elif filetype.startswith('text') or filetype.startswith('application/octet-stream'):
 				Logger.log_writer("TEXT FILE FOUND")
 				print "TEXT FILE FOUND"
 			else:
