@@ -1,0 +1,17 @@
+#! /bin/bash
+sudo mkdir /tmp/food
+cd /tmp/food
+sudo wget -q https://raw.githubusercontent.com/jatsakthi/Cloud-Computing/master/Foodie%20Friend/res/crawl.py
+sudo wget -q https://raw.githubusercontent.com/jatsakthi/Cloud-Computing/master/Foodie%20Friend/res/browser.py
+sudo wget -q https://raw.githubusercontent.com/jatsakthi/Cloud-Computing/master/Foodie%20Friend/res/search.py
+sudo wget -q https://raw.githubusercontent.com/jatsakthi/Cloud-Computing/master/Foodie%20Friend/res/Process.py
+sudo wget -q https://raw.githubusercontent.com/jatsakthi/Cloud-Computing/master/Foodie%20Friend/res/requirements.txt
+sudo wget -q https://raw.githubusercontent.com/GoogleCloudPlatform/pubsub-media-processing/master/02_workers/recurror.py
+sudo wget -q https://raw.githubusercontent.com/GoogleCloudPlatform/pubsub-media-processing/master/02_workers/logger.py
+sudo wget -q https://raw.githubusercontent.com/jatsakthi/Cloud-Computing/master/Foodie%20Friend/res/worker.py
+sudo curl https://bootstrap.pypa.io/get-pip.py | sudo python
+sudo pip install virtualenv
+sudo virtualenv venv
+source venv/bin/activate
+sudo venv/bin/pip install -r requirements.txt
+python worker.py --subscription=mediap-sub --destination=food-output
